@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext",
+      "moduleResolution": "node",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "resolveJsonModule": true,
+      "baseUrl": ".",
+      "paths": {
+        "@pages/*": ["pages/*"],
+        "@tests/*": ["tests/*"]
+      }
+    },
+    "include": ["**/*.ts"],
+    "exclude": ["node_modules"]
+  }
