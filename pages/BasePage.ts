@@ -223,4 +223,11 @@ export class BasePage {
   async goForward(): Promise<void> {
     await this.page.goForward();
   }
+  
+  /**
+ * Cancel button (common across dialogs/modals)
+ */
+getCancelButton(): Locator {
+  return this.page.getByRole('button', { name: 'Cancel' });
+}
 }

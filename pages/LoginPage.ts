@@ -23,6 +23,11 @@ export class LoginPage extends BasePage {
     }
   }
 
+  //**Get Cookie Consent Button */
+  getCookieConsentButton() {
+    return this.page.getByRole('button', { name: 'Accept' });
+  }
+  
   /**
    * Get database/server input locator
    */
@@ -34,7 +39,7 @@ export class LoginPage extends BasePage {
    * Get username/email input locator
    */
   getUsernameInput() {
-    return this.page.getByLabel(/username|email|user/i).or(
+    return this.page.getByRole('textbox', { name: /username|email|user/i }).or(
       this.page.locator('input[name="userName"], input[name="username"], input[type="email"], input[placeholder*="email" i], input[placeholder*="user" i], input[id*="user" i], input[autocomplete="username"]')
     ).first();
   }
@@ -43,7 +48,7 @@ export class LoginPage extends BasePage {
    * Get password input locator
    */
   getPasswordInput() {
-    return this.page.getByLabel(/password/i).or(
+    return this.page.getByRole('textbox', { name: /password/i }).or(
       this.page.locator('input[name="password"], input[type="password"], input[autocomplete="current-password"]')
     ).first();
   }

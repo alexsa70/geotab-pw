@@ -33,4 +33,39 @@ export class DashboardPage extends BasePage {
   getMainContent() {
     return this.page.locator('main, [role="main"], .dashboard, #content').first();
   }
+
+  /**
+   * Get MENUITEM Button
+   */
+  getMenuItemButton() {
+    return this.page.getByRole('menuitem', { name: 'Add-Ins', exact: true });
+  }
+
+  /**
+   * Get Vehicles Button
+   */
+  getVehiclesButton() {
+    return this.page.getByRole('menuitem', { name: 'Vehicles', exact: true });
+  }
+
+  /**
+   * Get Video Events  Button
+   */
+  getEventsButton() {
+    return this.page.getByRole('menuitem', { name: 'Video Events', exact: true });
+  }
+
+  /**
+   * Get Recordings Button
+   */
+  getRecordingsButton() {
+    return this.page.getByRole('menuitem', { name: 'Recordings', exact: true });
+  }
+
+  /**
+   * Get Settings Button
+   */
+  getVideoRulesButton() {
+    return this.page.getByRole('menuitem', { name: 'Video Rules', exact: true });
+  }
 }
