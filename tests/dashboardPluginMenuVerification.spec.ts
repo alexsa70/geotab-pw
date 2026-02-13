@@ -14,7 +14,7 @@ test.describe('Dashboard Tests - Fixtures from fixtures folder', () => {
 
   test('SOT-6851 | should verify buttons @regression', 
     async ({ page, dashboardPage }) => {
-    await waitForPageLoad(page, 'networkidle');
+    await waitForPageLoad(page, 'domcontentloaded');
     // Verify and click Add-Ins menu
     const menuItemButton = dashboardPage.getMenuItemButton();
     await expect(menuItemButton).toBeVisible({ 
