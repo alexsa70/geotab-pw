@@ -39,7 +39,5 @@ test.describe('SurfSight Plugin Vehicles Page Verification', () => {
     }
 
     console.log('✅ Testing verify toolbar buttons on vehicles page: PASSED');
-  });
-  
+  });     
 });
-

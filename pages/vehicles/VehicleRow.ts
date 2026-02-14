@@ -38,6 +38,13 @@ export class VehicleRow {
     return this.row.getByRole('button', { name: 'Live Stream', exact: true });
   }
 
+  // get checkbox() {
+  //   return this.row.locator('input[type="checkbox"]');
+  // }
+  get checkbox() {
+    return this.row.locator('span.surf-checkbox');
+  }
+
   // ==========================================
   // Row information getters
   // ==========================================
@@ -131,4 +138,22 @@ export class VehicleRow {
       await expect(button).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
     }
   }
+
+  
+/**
+ * Select this vehicle using checkbox (for bulk actions)
+ */
+async selectCheckbox(): Promise<void> {
+  await this.checkbox.click();
+}
+
+/**
+ * Deselect this vehicle
+ */
+async deselectCheckbox(): Promise<void> {
+  const isChecked = await this.checkbox.isChecked();
+  if (isChecked) {
+    await this.checkbox.click();
+  }
+}
 }
