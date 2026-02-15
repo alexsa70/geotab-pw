@@ -4,6 +4,7 @@ import { LoginPage } from '../pages/LoginPage';
 import { VehiclesListPage } from '../pages/vehicles/VehiclesListPage';
 import { EnvConfig } from '../utils/env';
 import { ROUTES, buildUrl } from '../constants/routes';
+import { EventsListPage } from '../pages/events/EventsListPage';
 
 /**
  * Extended test fixtures with Page Objects
@@ -16,6 +17,7 @@ type PageFixtures = {
   dashboardPage: DashboardPage;
   loginPage: LoginPage;
   vehiclesListPage: VehiclesListPage;
+  eventsListPage: EventsListPage;
 };
 
 export const test = base.extend<PageFixtures>({
@@ -64,6 +66,24 @@ export const test = base.extend<PageFixtures>({
     await firstRow.waitFor({ state: 'visible', timeout: 30000 });
     
     await use(vehiclesListPage);
+  },
+
+  /**
+   * Events List Page fixture
+   * Navigates to events page and waits for list to load
+   */
+  eventsListPage: async ({ page, database }, use) => {
+    const eventsListPage = new EventsListPage(page);
+    const url = buildUrl(database, ROUTES.PLUGIN.EVENTS);
+    await page.goto(url);
+    
+    await page.waitForLoadState('domcontentloaded');  
+    
+    // Ждём появления первой строки (означает что список загрузился)
+    const firstRow = page.getByRole('row').first();
+    await firstRow.waitFor({ state: 'visible', timeout: 30000 });
+    
+    await use(eventsListPage);
   },
 });
 

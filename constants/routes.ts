@@ -14,7 +14,7 @@ export const ROUTES = {
   PLUGIN: {
     BASE: '#addin-surfsight_staging',
     VEHICLES: '#addin-surfsight_staging-vehicles',
-    EVENTS: '#addin-surfsight_staging-events',
+    EVENTS: '#addin-surfsight_staging-vehicleEvents',
     RECORDINGS: '#addin-surfsight_staging-recordings',
     VIDEO_RULES: '#addin-surfsight_staging-video-rules',
   },
