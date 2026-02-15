@@ -16,7 +16,7 @@ export const ROUTES = {
     VEHICLES: '#addin-surfsight_staging-vehicles',
     EVENTS: '#addin-surfsight_staging-vehicleEvents',
     RECORDINGS: '#addin-surfsight_staging-recordings',
-    VIDEO_RULES: '#addin-surfsight_staging-video-rules',
+    VIDEO_RULES: '#addin-surfsight_staging-videoRules',
   },
 } as const;
 

@@ -1,10 +1,12 @@
-import { test as base } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
 import { DashboardPage } from '../pages/DashboardPage';
 import { LoginPage } from '../pages/LoginPage';
 import { VehiclesListPage } from '../pages/vehicles/VehiclesListPage';
+import { EventsListPage } from '../pages/events/EventsListPage';
+import { RecordingsListPage } from '../pages/recordings/RecordingsListPage';
+import { VideoRulesListPage } from '../pages/video-rules/VideoRulesListPage';
 import { EnvConfig } from '../utils/env';
 import { ROUTES, buildUrl } from '../constants/routes';
-import { EventsListPage } from '../pages/events/EventsListPage';
 
 /**
  * Extended test fixtures with Page Objects
@@ -18,6 +20,8 @@ type PageFixtures = {
   loginPage: LoginPage;
   vehiclesListPage: VehiclesListPage;
   eventsListPage: EventsListPage;
+  recordingsListPage: RecordingsListPage;
+  videoRulesListPage: VideoRulesListPage;
 };
 
 export const test = base.extend<PageFixtures>({
@@ -57,11 +61,9 @@ export const test = base.extend<PageFixtures>({
     const url = buildUrl(database, ROUTES.PLUGIN.VEHICLES);
     
     await page.goto(url);
-    
-    // Ждём DOM load (быстрее чем networkidle)
+    await expect(page).not.toHaveURL(/\/login/, { timeout: 5000 });
     await page.waitForLoadState('domcontentloaded');
     
-    // Ждём появления первой строки (означает что список загрузился)
     const firstRow = page.getByRole('row').first();
     await firstRow.waitFor({ state: 'visible', timeout: 30000 });
     
@@ -75,15 +77,48 @@ export const test = base.extend<PageFixtures>({
   eventsListPage: async ({ page, database }, use) => {
     const eventsListPage = new EventsListPage(page);
     const url = buildUrl(database, ROUTES.PLUGIN.EVENTS);
+    
     await page.goto(url);
+    await page.waitForLoadState('domcontentloaded');
     
-    await page.waitForLoadState('domcontentloaded');  
-    
-    // Ждём появления первой строки (означает что список загрузился)
     const firstRow = page.getByRole('row').first();
     await firstRow.waitFor({ state: 'visible', timeout: 30000 });
     
     await use(eventsListPage);
+  },
+
+  /**
+   * Recordings List Page fixture
+   * Navigates to recordings page and waits for list to load
+   */
+  recordingsListPage: async ({ page, database }, use) => {
+    const recordingsListPage = new RecordingsListPage(page);
+    const url = buildUrl(database, ROUTES.PLUGIN.RECORDINGS);
+    
+    await page.goto(url);
+    await page.waitForLoadState('domcontentloaded');
+    
+    const firstRow = page.getByRole('row').first();
+    await firstRow.waitFor({ state: 'visible', timeout: 30000 });
+    
+    await use(recordingsListPage);
+  },
+
+  /**
+   * Video Rules List Page fixture
+   * Navigates to video rules page and waits for page to load
+   */
+  videoRulesListPage: async ({ page, database }, use) => {
+    const videoRulesListPage = new VideoRulesListPage(page);
+    const url = buildUrl(database, ROUTES.PLUGIN.VIDEO_RULES);
+    
+    await page.goto(url);
+    await page.waitForLoadState('domcontentloaded');
+    
+    // Wait for page title to be visible
+    await videoRulesListPage.pageTitle.waitFor({ state: 'visible', timeout: 30000 });
+    
+    await use(videoRulesListPage);
   },
 });
 
