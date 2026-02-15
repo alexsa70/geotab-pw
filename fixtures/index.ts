@@ -11,4 +11,4 @@ export * from './devices';
 
 // Playwright fixtures - for test imports
 // Usage in tests: import { test, expect } from '../fixtures/test-fixtures';
-export { test, expect } from './test-fixutures';
+export { test, expect } from '../fixtures/test-fixtures';

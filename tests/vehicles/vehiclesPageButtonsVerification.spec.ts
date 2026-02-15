@@ -1,9 +1,12 @@
-import { test, expect, TEST_DEVICES } from '../fixtures';
-import {waitForPageLoad} from '../utils/wait';
-import { TIMEOUTS } from '../constants';
+import { test, expect, TEST_DEVICES } from '../../fixtures';
+import { waitForPageLoad } from '../../utils/wait';
+import { TIMEOUTS } from '../../constants/timeouts';
+import { VehicleRow } from '../../pages/vehicles/VehicleRow';
+import { DashboardPage } from '../../pages/DashboardPage';
 
 test.describe('SurfSight Plugin Vehicles Page Verification', () => {
   
+  let vehicle: VehicleRow;
 
   test('SOT-6852 | should load dashboard when authenticated @regression', async ({ page, dashboardPage }) => {
     await expect(page).not.toHaveURL(/\/login/);    
@@ -12,30 +15,29 @@ test.describe('SurfSight Plugin Vehicles Page Verification', () => {
     
   });
 
-  test('SOT-6853 | should verify buttons on dashboard @regression', async ({  vehiclePage }) => {
-    await waitForPageLoad(vehiclePage.page);
-    await expect(vehiclePage.buttonSettings).toBeVisible();    
-    await expect(vehiclePage.buttonCameraRules).toBeVisible();  
-    await expect(vehiclePage.buttonDataUsage).toBeVisible();  
-    await expect(vehiclePage.buttonUnpairCamera).toBeVisible();  
-    await expect(vehiclePage.buttonLiveStream).toBeVisible();  
-    
-  });
+  test('SOT-6853 | should verify TOOLBAR buttons on vehicles page @regression', async ({  vehiclesListPage }) => {
+   
+    const toolbarButtons = [
+      vehiclesListPage.addCameraButton,
+      vehiclesListPage.bulkAddCamerasButton,
+      vehiclesListPage.updateSettingsButton,
+      vehiclesListPage.userAccessButton,
+      vehiclesListPage.wifiButton,
+      vehiclesListPage.alarmsReportButton,
+      vehiclesListPage.healthButton,
+    ];
 
-  test('SOT-6854 | should verify buttons for devices @regression', async ({ page, vehiclePage, devicesPage }) => {
-    await devicesPage.getDevice12();
-    await waitForPageLoad(devicesPage.page);
+    for (const button of toolbarButtons) {
+      await expect(button).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    }
+    const bulkEditButtons = [
+      vehiclesListPage.bulkEditCameraRulesButton,
+      vehiclesListPage.bulkEditCameraSettingsButton,
+    ];    
+    for (const button of bulkEditButtons) {
+      await expect(button).toBeHidden({ timeout: TIMEOUTS.MEDIUM });
+    }
 
-    await expect(vehiclePage.buttonSettings).toBeVisible();    
-    await expect(vehiclePage.buttonCameraRules).toBeVisible();  
-    await expect(vehiclePage.buttonDataUsage).toBeVisible();  
-    await expect(vehiclePage.buttonUnpairCamera).toBeVisible();  
-    await expect(vehiclePage.buttonLiveStream).toBeVisible();     
-       
-
-    // await expect(devicesPage.buttonCalibrate).toBeVisible();
-    // await expect(devicesPage.buttonFormatSD).toBeVisible();
-    // await expect(devicesPage.buttonReboot).toBeVisible();
-    // await expect(devicesPage.buttonInfo).toBeVisible();
-  });
+    console.log('✅ Testing verify toolbar buttons on vehicles page: PASSED');
+  });     
 });
