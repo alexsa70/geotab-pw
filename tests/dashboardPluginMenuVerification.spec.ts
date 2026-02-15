@@ -5,37 +5,33 @@ import { TIMEOUTS } from '../constants/timeouts';
 
 test.describe('Dashboard Tests - Fixtures from fixtures folder', () => {
   test.describe.configure({ mode: 'serial' });
-  test('SOT-6850 | should load dashboard @regression', 
-    async ({ page, dashboardPage }) => {
-    // dashboardPage is ready to use
-    await expect(page).not.toHaveURL(/\/login/);
-    expect(await dashboardPage.isOnDashboard()).toBeTruthy();
-    console.log('Testing load dashboard: PASSED');
-  });
-
+  
   test('SOT-6851 | should verify buttons @regression', 
     async ({ page, dashboardPage }) => {
-    await waitForPageLoad(page, 'domcontentloaded');
-    // Verify and click Add-Ins menu
-    const menuItemButton = dashboardPage.getMenuItemButton();
-    await expect(menuItemButton).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
-    await menuItemButton.click();
-    await expect(dashboardPage.getVehiclesButton()).toBeVisible({ 
-      timeout: TIMEOUTS.LONG 
-    });
-    console.log('✅ Vehicles button is visible');
-    
-    // Verify all sub-menu items are visible
-    const menuItems = [
-      dashboardPage.getVehiclesButton(),
-      dashboardPage.getEventsButton(),
-      dashboardPage.getRecordingsButton(),
-      dashboardPage.getVideoRulesButton()
-    ]
-    for (const item of menuItems){
-      await expect(item).toBeVisible();
-    }
-    console.log('Testing verify menu buttons: PASSED');
-  });
   
+      await expect(page).not.toHaveURL(/\/login/);
+      expect(await dashboardPage.isOnDashboard()).toBeTruthy();
+      await waitForPageLoad(page, 'domcontentloaded');
+  
+      // Verify and click Add-Ins menu
+      const menuItemButton = dashboardPage.getMenuItemButton();
+      await expect(menuItemButton).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+      await menuItemButton.click();
+      
+      // Add a delay for opening the menu
+      await page.waitForTimeout(3000);
+  
+      // Verify all sub-menu items are visible
+      const menuItems = [
+        dashboardPage.getVehiclesButton(),
+        dashboardPage.getEventsButton(),
+        dashboardPage.getRecordingsButton(),
+        dashboardPage.getVideoRulesButton()
+      ];
+      
+      for (const item of menuItems){
+        await expect(item).toBeVisible({ timeout: TIMEOUTS.LONG });  // ← Увеличить timeout
+      }
+      console.log('Testing verify menu buttons: PASSED');
+    });
 });

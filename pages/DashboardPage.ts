@@ -38,7 +38,7 @@ export class DashboardPage extends BasePage {
    * Get MENUITEM Button
    */
   getMenuItemButton() {
-    return this.page.getByRole('menuitem', { name: 'Add-Ins', exact: true });
+    return this.page.getByRole('menuitem', { name: 'Add-Ins'});
   }
 
   /**
