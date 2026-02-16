@@ -1,37 +1,43 @@
 // Import from fixtures/test-fixtures.ts
 import { test, expect } from '../fixtures';
-import { waitForPageLoad } from '../utils/wait';
+import { waitForPageLoad, clickAndWait ,safeClick} from '../utils/wait';
 import { TIMEOUTS } from '../constants/timeouts';
 
 test.describe('Dashboard Tests - Fixtures from fixtures folder', () => {
   test.describe.configure({ mode: 'serial' });
   
   test('SOT-6851 | should verify buttons @regression', 
-    async ({ page, dashboardPage }) => {
+    async ({ dashboardPage }) => {
   
-      await expect(page).not.toHaveURL(/\/login/);
+      await expect(dashboardPage.page).not.toHaveURL(/\/login/);
       expect(await dashboardPage.isOnDashboard()).toBeTruthy();
-      await waitForPageLoad(page, 'domcontentloaded');
+      await waitForPageLoad(dashboardPage.page, 'domcontentloaded');
   
-      // Verify and click Add-Ins menu
-      const menuItemButton = dashboardPage.getMenuItemButton();
-      await expect(menuItemButton).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
-      await menuItemButton.click();
-      
-      // Add a delay for opening the menu
-      await page.waitForTimeout(3000);
-  
-      // Verify all sub-menu items are visible
-      const menuItems = [
-        dashboardPage.getVehiclesButton(),
-        dashboardPage.getEventsButton(),
-        dashboardPage.getRecordingsButton(),
-        dashboardPage.getVideoRulesButton()
-      ];
-      
-      for (const item of menuItems){
-        await expect(item).toBeVisible({ timeout: TIMEOUTS.LONG });  // ← Увеличить timeout
-      }
-      console.log('Testing verify menu buttons: PASSED');
+      const menuAddIns = dashboardPage.getMenuItemButton();
+      await clickAndWait(menuAddIns, TIMEOUTS.LONG)
+
+      // Verify all sub-menu items are visible and clicable
+      const linkVehicle = dashboardPage.getVehiclesButton()
+      await expect(linkVehicle).toBeVisible()
+      await clickAndWait(linkVehicle)
+      await expect(dashboardPage.page).toHaveURL(/#addin-surfsight_staging-vehicles/i);
+
+      const linkEvents = dashboardPage.getEventsButton()
+      await expect(linkEvents).toBeVisible()
+      await clickAndWait(linkEvents)
+      await expect(dashboardPage.page).toHaveURL(/#addin-surfsight_staging-vehicleEvents/i);
+
+
+      const linkRecordings = dashboardPage.getRecordingsButton()
+      await expect(linkRecordings).toBeVisible()
+      await clickAndWait(linkRecordings)
+      await expect(dashboardPage.page).toHaveURL(/#addin-surfsight_staging-recordings/i);
+
+      const linkRules = dashboardPage.getVideoRulesButton()
+      await expect(linkRules).toBeVisible()
+      await clickAndWait(linkRules)
+      await expect(dashboardPage.page).toHaveURL(/#addin-surfsight_staging-videoRules/i);
+    
+     console.log('Testing verify menu buttons: PASSED');
     });
 });

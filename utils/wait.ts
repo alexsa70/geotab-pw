@@ -81,3 +81,48 @@ export async function waitForMultipleVisible(
     locators.map(locator => waitForVisible(locator, timeout))
   );
 }
+
+/**
+ * Безопасный клик с ожиданием видимости элемента
+ * @param locator - Playwright locator
+ * @param timeout - Optional timeout in milliseconds
+ */
+export async function safeClick(
+  locator: Locator, 
+  timeout?: number
+): Promise<void> {
+  await waitForVisible(locator, timeout);  // ← Используем существующую функцию!
+  await locator.click();
+}
+
+/**
+ * Клик с задержкой после (для раскрывающихся меню)
+ * @param locator - Playwright locator
+ * @param delayMs - Задержка после клика (мс)
+ * @param timeout - Максимальное время ожидания (мс)
+ */
+export async function clickAndWait(
+  locator: Locator, 
+  delayMs = 1000, 
+  timeout?: number
+): Promise<void> {
+  await waitForVisible(locator, timeout);  // ← Используем существующую функцию!
+  await locator.click();
+  await locator.page().waitForTimeout(delayMs);
+}
+
+/**
+ * Безопасное заполнение поля с ожиданием
+ * @param locator - Playwright locator
+ * @param text - Текст для ввода
+ * @param timeout - Optional timeout in milliseconds
+ */
+export async function safeFill(
+  locator: Locator, 
+  text: string, 
+  timeout?: number
+): Promise<void> {
+  await waitForVisible(locator, timeout);  // ← Используем существующую функцию!
+  await locator.clear();
+  await locator.fill(text);
+}

@@ -1,5 +1,6 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { TIMEOUTS } from '../constants/timeouts';
 
 /**
  * DashboardPage - Page Object for MyGeotab dashboard (post-login)
@@ -35,37 +36,110 @@ export class DashboardPage extends BasePage {
   }
 
   /**
-   * Get MENUITEM Button
+   * Get Add-Ins menuitem button
    */
   getMenuItemButton() {
     return this.page.getByRole('menuitem', { name: 'Add-Ins'});
   }
 
   /**
-   * Get Vehicles Button
+   * Get Vehicles menuitem
    */
   getVehiclesButton() {
-    return this.page.getByRole('menuitem', { name: 'Vehicles', exact: true });
+    return this.page.getByRole('menuitem', { name: 'Vehicles' });
   }
 
   /**
-   * Get Video Events  Button
+   * Get Video Events menuitem
    */
   getEventsButton() {
-    return this.page.getByRole('menuitem', { name: 'Video Events', exact: true });
+    return this.page.getByRole('menuitem', { name: 'Video Events' });
   }
 
   /**
-   * Get Recordings Button
+   * Get Recordings menuitem
    */
   getRecordingsButton() {
-    return this.page.getByRole('menuitem', { name: 'Recordings', exact: true });
+    return this.page.getByRole('menuitem', { name: 'Recordings',  exact: true  });
   }
 
   /**
-   * Get Settings Button
+   * Get Video Rules menuitem
    */
   getVideoRulesButton() {
     return this.page.getByRole('menuitem', { name: 'Video Rules', exact: true });
+  }
+
+  // ==========================================
+  // Actions
+  // ==========================================
+
+  /**
+   * Open Add-Ins menu and wait for it to expand
+   * This is the RELIABLE way to open the menu
+   */
+  async openAddInsMenu(): Promise<void> {
+    const menuButton = this.getMenuItemButton();
+    
+    // Click and wait for menu to be visible
+    await expect(menuButton).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    await menuButton.click();
+    
+    // Wait for menu to expand - check that first item is visible
+    await expect(this.getVehiclesButton()).toBeVisible({ 
+      timeout: TIMEOUTS.LONG 
+    });
+  }
+
+  /**
+   * Verify all Add-Ins menu items are visible
+   */
+  async verifyAllAddInsMenuItems(): Promise<void> {
+    const menuItems = [
+      this.getVehiclesButton(),
+      this.getEventsButton(),
+      this.getRecordingsButton(),
+      this.getVideoRulesButton()
+    ];
+    
+    for (const item of menuItems) {
+      await expect(item).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    }
+  }
+
+  /**
+   * Navigate to Vehicles page via menu
+   */
+  async navigateToVehicles(): Promise<void> {
+    await this.openAddInsMenu();
+    await this.getVehiclesButton().click();
+    await this.page.waitForLoadState('domcontentloaded');
+  }
+
+  /**
+   * Navigate to Events page via menu
+   */
+  async navigateToEvents(): Promise<void> {
+    await this.openAddInsMenu();
+    await this.getEventsButton().click();
+    await this.page.waitForLoadState('domcontentloaded');
+  }
+
+  /**
+   * Navigate to Recordings page via menu
+   */
+  async navigateToRecordings(): Promise<void> {
+    await this.openAddInsMenu();
+    await this.getRecordingsButton().click();
+    await this.page.waitForLoadState('domcontentloaded');
+  }
+
+  /**
+   * Navigate to Video Rules page via menu
+   */
+  async navigateToVideoRules(): Promise<void> {
+    await this.openAddInsMenu();
+    await this.getVideoRulesButton().click();
+    await this.page.waitForLoadState('domcontentloaded');
   }
 }
