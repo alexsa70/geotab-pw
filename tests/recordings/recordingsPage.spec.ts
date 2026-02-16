@@ -4,22 +4,22 @@ import { TIMEOUTS } from '../../constants/timeouts';
 
 test.describe('Recordings Page - Verification', () => {
   test.describe.configure({ mode: 'serial' });
-  test('SOT-XXXX | should verify recordings page title and URL @regression', 
+  test('SOT-6922 | should verify recordings page title and URL @regression', 
     async ({ page, recordingsListPage }) => {
-    // recordingsListPage fixture уже загрузил страницу!
+    // recordingsListPage fixture has already loaded the page!
     
-    // Проверить URL
+    // Check URL
     await expect(page).toHaveURL(/#addin-surfsight_staging-recordings/i);
     
-    // Проверить title
+    // Check title
     await expect(recordingsListPage.pageTitle).toBeVisible();
     
     console.log('✅ Recordings page verified');
   });
 
-  test('SOT-XXXX | should display recordings list headers @regression', 
+  test('SOT-6923| should display recordings list headers @regression', 
     async ({ recordingsListPage }) => {
-    // Проверить заголовки таблицы
+    // Check table headers
     await expect(recordingsListPage.cameraNameHeader).toBeVisible({ 
       timeout: TIMEOUTS.MEDIUM 
     });
@@ -30,14 +30,14 @@ test.describe('Recordings Page - Verification', () => {
     console.log('✅ Recordings list headers verified');
   });
 
-  test('SOT-XXXX | should find recording by camera name @regression', 
+  test('SOT-6924 | should find recording by camera name @regression', 
     async ({ recordingsListPage }) => {
-    // Найти запись по камере
+    // Find a recording by camera
     const recording = await recordingsListPage.findRecordingByCamera(
       TEST_DEVICES.DEVICE_12.name
     );
     
-    // Проверить что запись найдена
+    // Check that the record has been found
     const cameraName = await recording.getCameraName();
     expect(cameraName).toContain('3.12.X');
     

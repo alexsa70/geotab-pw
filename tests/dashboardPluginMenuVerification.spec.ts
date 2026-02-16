@@ -6,7 +6,7 @@ import { TIMEOUTS } from '../constants/timeouts';
 test.describe('Dashboard Tests - Fixtures from fixtures folder', () => {
   test.describe.configure({ mode: 'serial' });
   
-  test('SOT-6851 | should verify buttons @regression', 
+  test('SOT-6851 | should verify all buttons on the dashboard page(SurfSight Plugin) @regression', 
     async ({ dashboardPage }) => {
   
       await expect(dashboardPage.page).not.toHaveURL(/\/login/);

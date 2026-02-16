@@ -5,20 +5,20 @@ import { TIMEOUTS } from '../../constants/timeouts';
 test.describe('Events Page - Verification', () => {
   test.describe.configure({ mode: 'serial' });
   
-  test('SOT-XXXX | should verify events page title and URL @regression', 
+  test('SOT-6852 | should verify events page title and URL @regression', 
     async ({ page, eventsListPage }) => {
     // eventsListPage fixture have already loaded the page!
     
     // 1. Check URL
     await expect(page).toHaveURL(/#addin-surfsight_staging-vehicleEvents/i);
     
-    // 2. Проверить title
+    // 2. Check title
     await expect(eventsListPage.pageTitle).toBeVisible();
     
     console.log('✅ Events page verified');
   });
 
-  test('SOT-XXXX | should display camera list with headers @regression', 
+  test('SOT-6853 | should display camera list with headers @regression', 
     async ({ eventsListPage }) => {
     // Check table headers
     await expect(eventsListPage.cameraNameHeader).toBeVisible({ 
@@ -31,7 +31,7 @@ test.describe('Events Page - Verification', () => {
     console.log('✅ Camera list headers verified');
   });
 
-  test('SOT-XXXX | should find camera by name and verify dropdown options @regression', 
+  test('SOT-6906 | should find camera by name and verify dropdown options @regression', 
     async ({ eventsListPage }) => {
     // Найти камеру
     const camera = await eventsListPage.findCameraByName(TEST_DEVICES.DEVICE_12.name);
@@ -43,7 +43,7 @@ test.describe('Events Page - Verification', () => {
     console.log('✅ Camera found by name');
   });
 
-  test('SOT-XXXX | should open Options dropdown for camera @regression', 
+  test('SOT-6907 | should open Options dropdown for camera @regression', 
     async ({ eventsListPage }) => {
     //Find a camera
     const camera = await eventsListPage.findCameraByName(TEST_DEVICES.DEVICE_12.name);

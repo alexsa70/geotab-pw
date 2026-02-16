@@ -12,7 +12,7 @@ test.describe('SurfSight Plugin Vehicles Page Bulk Settings', () => {
 });
 
 
-  test('SOT-6855 | should verify bulk settings on vehicles page @regression', async ({ vehiclesListPage }) => {
+  test('SOT-6913 | should verify bulk settings on vehicles page @regression', async ({ vehiclesListPage }) => {
     await vehicle.selectCheckbox();
     const bulkEditButtons = [
         vehiclesListPage.bulkEditCameraRulesButton,
@@ -26,7 +26,7 @@ test.describe('SurfSight Plugin Vehicles Page Bulk Settings', () => {
       console.log('✅ Testing verify bulk edit buttons on vehicles page: PASSED');
     
   });
-  test('should open bulk edit cameras EVENTS modal', async ({ vehiclesListPage }) => {
+  test('SOT-6914 |should open bulk edit cameras EVENTS modal', async ({ vehiclesListPage }) => {
     const vehicle = await vehiclesListPage.findVehicleByName(TEST_DEVICES.DEVICE_12.name);
     await vehicle.selectCheckbox();
     
@@ -43,7 +43,7 @@ test.describe('SurfSight Plugin Vehicles Page Bulk Settings', () => {
     console.log('✅ Testing verify bulk edit cameras EVENTS modal: PASSED');
   });
 
-  test('should open bulk SETTINGS cameras modal', async ({ vehiclesListPage }) => {
+  test('SOT-6915 | should open bulk SETTINGS cameras modal', async ({ vehiclesListPage }) => {
     const vehicle = await vehiclesListPage.findVehicleByName(TEST_DEVICES.DEVICE_12.name);
     await vehicle.selectCheckbox();
     

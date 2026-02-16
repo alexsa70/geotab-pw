@@ -8,14 +8,14 @@ test.describe('SurfSight Plugin Vehicles Page Verification', () => {
   
   let vehicle: VehicleRow;
 
-  test('SOT-6852 | should load dashboard when authenticated @regression', async ({ page, dashboardPage }) => {
+  test('SOT-6916 | should load dashboard when authenticated @regression', async ({ page, dashboardPage }) => {
     await expect(page).not.toHaveURL(/\/login/);    
     expect(await dashboardPage.isOnDashboard()).toBeTruthy();
     await expect(page).toHaveURL(/dashboard/);
     
   });
 
-  test('SOT-6853 | should verify TOOLBAR buttons on vehicles page @regression', async ({  vehiclesListPage }) => {
+  test('SOT-6917 | should verify TOOLBAR buttons on vehicles page @regression', async ({  vehiclesListPage }) => {
    
     const toolbarButtons = [
       vehiclesListPage.addCameraButton,
