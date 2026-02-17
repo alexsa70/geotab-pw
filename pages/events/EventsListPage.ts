@@ -66,5 +66,5 @@ export class EventsListPage extends BasePage {
   async waitForEventsListLoad(): Promise<void> {
     await this.page.waitForLoadState('domcontentloaded');
     await this.waitForVisible(this.pageTitle, TIMEOUTS.VERY_LONG);
-  }
+  } 
 }
