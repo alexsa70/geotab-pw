@@ -100,7 +100,7 @@ export class EventsDateDropdown {
    */
   async selectToday(): Promise<void> {
     await this.todayOption.click();
-    await this.applyChangesButton.click();
+    //await this.applyChangesButton.click();
     await this.page.waitForLoadState('domcontentloaded');
   }
 
@@ -109,7 +109,7 @@ export class EventsDateDropdown {
    */
   async selectYesterday(): Promise<void> {
     await this.yesterdayOption.click();
-    await this.applyChangesButton.click();
+    //await this.applyChangesButton.click();
     await this.page.waitForLoadState('domcontentloaded');
   }
 
@@ -118,7 +118,7 @@ export class EventsDateDropdown {
    */
   async selectLast7Days(): Promise<void> {
     await this.last7DaysOption.click();
-    await this.applyChangesButton.click();
+    //await this.applyChangesButton.click();
     await this.page.waitForLoadState('domcontentloaded');
   }
 
@@ -127,7 +127,7 @@ export class EventsDateDropdown {
    */
   async selectLast30Days(): Promise<void> {
     await this.last30DaysOption.click();
-    await this.applyChangesButton.click();
+    //await this.applyChangesButton.click();
     await this.page.waitForLoadState('domcontentloaded');
   }
 
@@ -136,7 +136,7 @@ export class EventsDateDropdown {
    */
   async selectThisMonth(): Promise<void> {
     await this.thisMonthOption.click();
-    await this.applyChangesButton.click();
+    //await this.applyChangesButton.click();
     await this.page.waitForLoadState('domcontentloaded');
   }
 
@@ -145,7 +145,7 @@ export class EventsDateDropdown {
    */
   async selectLastMonth(): Promise<void> {
     await this.lastMonthOption.click();
-    await this.applyChangesButton.click();
+    //await this.applyChangesButton.click();
     await this.page.waitForLoadState('domcontentloaded');
   }
 }

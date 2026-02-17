@@ -107,6 +107,24 @@ export class BasePage {
     return this.page.getByRole('button', { name: 'Cancel' });
   }
 
+  // ==========================================
+  // Back button
+  // ==========================================
+  /**
+ * Back button (available on detail pages)
+ */
+get backButton(): Locator {
+  return this.page.locator('button.back-btn.surf-back-button');
+}
+
+/**
+ * Click back button and wait for page load
+ */
+async clickBack(): Promise<void> {
+  await this.backButton.click();
+  await this.page.waitForLoadState('domcontentloaded');
+}
+
   /**
    * Close modal by clicking Cancel button
    */
