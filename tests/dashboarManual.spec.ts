@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('test', async ({ page }) => {
+test('SOT-6851 | should verify all buttons in Dashboard menu @regression', async ({ page }) => {
   await page.goto('https://my.geotab.com/login.html');
   await page.getByRole('textbox', { name: 'Username (Email)' }).click();
   await page.getByRole('textbox', { name: 'Username (Email)' }).fill('alex.leshinski@lytx.com');
@@ -53,13 +53,5 @@ test('test', async ({ page }) => {
    await menuAccount.click();
    const menuLogOut = page.getByRole('menuitem', { name: 'Log out' });
    await menuLogOut.click();
-//   await page.getByRole('menuitem', { name: 'Video Events' }).click();
-//   await page.locator('#surf-geotab-vehicles').getByText('Video Events').click();
-//   await page.getByRole('menuitem', { name: 'Recordings', exact: true }).click();
-//   await page.locator('#surf-geotab-recordings-vehicles').getByText('Video Recordings').click();
-//   await page.getByRole('menuitem', { name: 'Video Rules' }).click();
-//   await page.getByText('Geotab Video Rules').click();
-//   await page.getByRole('img', { name: 'surf-info' }).click();
-//   await page.getByRole('button', { name: 'Account' }).click();
-//   await page.getByRole('menuitem', { name: 'Log out' }).click();
+
 });

@@ -7,7 +7,7 @@ node_modules/
 /playwright/.auth/
 screenshots/
 auth.json
-DOCS/
+DOCS_/
 
 # Node
 node_modules/

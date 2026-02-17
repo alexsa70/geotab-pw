@@ -1,0 +1,52 @@
+import { test, expect } from '../fixtures';
+import { clickAndWait } from '../utils/wait';
+import { TIMEOUTS } from '../constants/timeouts';
+
+test.describe('Dashboard Tests - Add-Ins Menu Verification', () => {
+  test.describe.configure({ mode: 'serial' });
+
+  // ✅ НЕ НУЖЕН let dashboardPage - fixture делает всё сам!
+
+  test('SOT-6851 | should verify all buttons @regression', 
+    async ({ dashboardPage }) => {  // ← fixture автоматически создаёт dashboardPage!
+  
+    // Open Add-Ins menu
+    const menuAddIns = dashboardPage.getMenuItemButton();
+    await clickAndWait(menuAddIns, 1000);  // ← 1 сек достаточно, не TIMEOUTS.LONG (15 сек!)
+
+    // Verify Vehicles
+    const linkVehicle = dashboardPage.getVehiclesButton();
+    await expect(linkVehicle).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    await linkVehicle.click();
+    await expect(dashboardPage.page).toHaveURL(/#addin-surfsight_staging-vehicles/i);
+
+    // Re-open menu for next item
+    await clickAndWait(dashboardPage.getMenuItemButton(), 1000);
+    
+    // Verify Events
+    const linkEvents = dashboardPage.getEventsButton();
+    await expect(linkEvents).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    await linkEvents.click();
+    await expect(dashboardPage.page).toHaveURL(/#addin-surfsight_staging-vehicleEvents/i);
+
+    // Re-open menu
+    await clickAndWait(dashboardPage.getMenuItemButton(), 1000);
+
+    // Verify Recordings
+    const linkRecordings = dashboardPage.getRecordingsButton();
+    await expect(linkRecordings).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    await linkRecordings.click();
+    await expect(dashboardPage.page).toHaveURL(/#addin-surfsight_staging-recordings/i);
+
+    // Re-open menu
+    await clickAndWait(dashboardPage.getMenuItemButton(), 1000);
+
+    // Verify Video Rules
+    const linkRules = dashboardPage.getVideoRulesButton();
+    await expect(linkRules).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    await linkRules.click();
+    await expect(dashboardPage.page).toHaveURL(/#addin-surfsight_staging-videoRules/i);
+   
+    console.log('✅ All menu buttons verified');
+  });
+});

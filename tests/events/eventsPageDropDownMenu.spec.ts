@@ -35,7 +35,7 @@ test.describe('Events Page - Verification', () => {
     
     console.log('✅ Today button opens today\'s events');
   });
-
+  
     test('SOT-6926 | should open Options dropdown for camera and verify Yesterday button opens yesterday\'s events @regression', 
         async ({ eventsListPage }) => {
         
