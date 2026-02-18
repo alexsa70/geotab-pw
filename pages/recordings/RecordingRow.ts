@@ -31,6 +31,10 @@ export class RecordingRow {
     return this.row.getByRole('button', { name: 'Download' });
   }
 
+  get timelineButton() {
+    return this.row.getByRole('button', { name: 'Timeline' });
+  }
+  
   // ==========================================
   // Actions
   // ==========================================
@@ -64,5 +68,10 @@ export class RecordingRow {
   async openOptions(): Promise<void> {
     await expect(this.optionsButton).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
     await this.optionsButton.click();
+  }
+
+    
+  async clickTimeline(): Promise<void> {
+    await this.timelineButton.click();
   }
 }

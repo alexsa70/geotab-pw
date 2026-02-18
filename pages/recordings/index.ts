@@ -4,3 +4,4 @@
 
 export { RecordingsListPage } from './RecordingsListPage';
 export { RecordingRow } from './RecordingRow';
+export { CameraRecordingsPage } from './cameraRecordingsPage';

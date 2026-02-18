@@ -7,6 +7,7 @@ import { CameraEventsPage } from '../../pages/events/cameraEventsPage';
 
 test.describe('Events Page - Events List Filter', () => {
   test.describe.configure({ mode: 'serial' });
+  
 
   let camera: EventCameraRow;
 

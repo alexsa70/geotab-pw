@@ -38,7 +38,9 @@ export class RecordingsListPage extends BasePage {
    */
   async findRecordingByCamera(cameraName: string | RegExp): Promise<RecordingRow> {
     const pattern = typeof cameraName === 'string' ? new RegExp(cameraName) : cameraName;
-    const row = this.page.getByRole('row').filter({ hasText: pattern });
+    //const row = this.page.getByRole('row').filter({ hasText: pattern });
+    const row = this.page.locator('tbody tr').filter({ hasText: pattern });
+
     
     await expect(row).toBeVisible({ timeout: TIMEOUTS.VERY_LONG });
     
@@ -63,7 +65,7 @@ export class RecordingsListPage extends BasePage {
    * Wait for recordings list to load
    */
   async waitForRecordingsListLoad(): Promise<void> {
-    await this.page.waitForLoadState('domcontentloaded');
+    await this.page.waitForLoadState('networkidle');
     await this.waitForVisible(this.pageTitle, TIMEOUTS.VERY_LONG);
   }
 }
