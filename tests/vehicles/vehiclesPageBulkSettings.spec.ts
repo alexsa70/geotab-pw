@@ -8,7 +8,7 @@ test.describe('SurfSight Plugin Vehicles Page Bulk Settings', () => {
   let vehicle: VehicleRow;
   test.beforeEach(async ({vehiclesListPage}) => {
     vehicle = await vehiclesListPage.findVehicleByName(TEST_DEVICES.DEVICE_12.name);
-    await waitForPageLoad(vehiclesListPage.page)
+    await waitForPageLoad(vehiclesListPage.page, 'domcontentloaded')
 });
 
 

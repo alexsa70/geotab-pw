@@ -8,7 +8,7 @@ test.describe('Device Page Buttons Verification', () => {
     let vehicle: VehicleRow;
     test.beforeEach(async ({vehiclesListPage}) => {
         vehicle = await vehiclesListPage.findVehicleByName(TEST_DEVICES.DEVICE_12.name);
-        await waitForPageLoad(vehiclesListPage.page)
+        await waitForPageLoad(vehiclesListPage.page, 'domcontentloaded')
     });
 
     test('SOT-6908 | should verify button SETTINGS and all sub-buttons for devices @regression', async () => {        
