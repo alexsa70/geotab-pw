@@ -115,6 +115,68 @@ export class VehicleRow {
   }
 
   /**
+   * Get device IMEI from the IMEI column
+   */
+  async getImei(): Promise<string> {
+    // IMEI column is the 3rd cell in the row (Camera Name, Current Driver, IMEI, ...)
+    const imeiCell = this.row.getByRole('cell').nth(2);
+    return (await imeiCell.textContent())?.trim() ?? '';
+  }
+
+  /**
+   * Get current device status from the Camera Name cell
+   * @returns 'Online' | 'Standby' | 'Offline'
+   */
+  async getDeviceStatus(): Promise<'Online' | 'Standby' | 'Offline'> {
+    const nameCell = this.row.getByRole('cell').first();
+    if (await nameCell.getByText('Online', { exact: true }).count() > 0) return 'Online';
+    if (await nameCell.getByText('Standby', { exact: true }).count() > 0) return 'Standby';
+    return 'Offline';
+  }
+
+  /**
+   * Click the dropdown toggle arrow on the Live Stream split button
+   * to open the camera selection menu, then wait for the menu to appear.
+   */
+  async openLiveStreamDropdown(): Promise<void> {
+    // The Live Stream split button contains two buttons:
+    // 1. The main "Live Stream" button
+    // 2. The dropdown toggle arrow button (last button in the cell)
+    const liveStreamCell = this.row.locator('td').filter({
+      has: this.page.getByRole('button', { name: 'Live Stream', exact: true }),
+    });
+    const dropdownToggle = liveStreamCell.getByRole('button').last();
+    await expect(dropdownToggle).toBeVisible({ timeout: TIMEOUTS.MEDIUM });
+    await dropdownToggle.click();
+
+    // Wait for at least one camera option to appear in the dropdown
+    await this.page
+      .getByText(/Front Camera|Rear Camera|Interior Camera|Cab Camera/)
+      .first()
+      .waitFor({ state: 'visible', timeout: TIMEOUTS.MEDIUM });
+  }
+
+  /**
+   * Click the first visible (enabled) camera option in the Live Stream dropdown menu.
+   * Call openLiveStreamDropdown() first.
+   */
+  async clickFirstEnabledCameraOption(): Promise<void> {
+    const knownCameras = ['Front Camera', 'Rear Camera', 'Interior Camera', 'Cab Camera'];
+    for (const name of knownCameras) {
+      const option = this.page.getByText(name, { exact: true });
+      try {
+        // Use waitFor with a short timeout — unlike isVisible(), this retries
+        await option.waitFor({ state: 'visible', timeout: 3000 });
+        await option.click();
+        return;
+      } catch {
+        // This camera name not found/visible, try next
+      }
+    }
+    throw new Error('No active camera option found in the Live Stream dropdown');
+  }
+
+  /**
    * Click Unpair Camera button
    */
   async clickUnpairCamera(): Promise<void> {

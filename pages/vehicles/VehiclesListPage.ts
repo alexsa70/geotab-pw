@@ -90,6 +90,41 @@ export class VehiclesListPage extends BasePage {
   }
 
   /**
+   * Poll device status every intervalMs until it becomes 'Online' or timeout is reached.
+   * Reloads the page between each check.
+   * @param vehicleName - Vehicle name to find after each reload
+   * @param timeoutMs - Max total wait time in ms (default 5 minutes)
+   * @param intervalMs - Time between checks in ms (default 10 seconds)
+   * @returns A fresh VehicleRow instance for the online device
+   */
+  async waitForDeviceOnline(
+    vehicleName: string | RegExp,
+    timeoutMs: number = 300000,
+    intervalMs: number = 10000,
+  ): Promise<VehicleRow> {
+    const deadline = Date.now() + timeoutMs;
+
+    while (Date.now() < deadline) {
+      const vehicle = await this.findVehicleByName(vehicleName);
+      const status = await vehicle.getDeviceStatus();
+
+      if (status === 'Online') return vehicle;
+
+      console.log(`Device status: ${status}. Retrying in ${intervalMs / 1000}s...`);
+      await this.page.waitForTimeout(intervalMs);
+      await this.page.reload();
+      // Use networkidle so device statuses are fully loaded before re-checking
+      await this.page.waitForLoadState('networkidle');
+      const firstRow = this.page.getByRole('row').first();
+      await firstRow.waitFor({ state: 'visible', timeout: TIMEOUTS.VERY_LONG });
+    }
+
+    throw new Error(
+      `Device "${vehicleName}" did not come Online within ${timeoutMs / 1000}s`
+    );
+  }
+
+  /**
    * Check if vehicles list is loaded
    */
   async isVehiclesListLoaded(): Promise<boolean> {

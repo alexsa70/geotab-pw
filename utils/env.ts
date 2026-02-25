@@ -73,6 +73,38 @@ export class EnvConfig {
   }
 
   /**
+   * Get Surfsight API base URL from environment
+   * @returns API base URL (defaults to stage2)
+   */
+  static getSurfsightApiUrl(): string {
+    return process.env.SURFSIGHT_API_URL?.trim() || 'https://api.stage2.surfsight.net';
+  }
+
+  /**
+   * Get super admin email for Surfsight API authentication
+   * @throws Error if SURFSIGHT_ADMIN_EMAIL is not set
+   */
+  static getSuperAdminEmail(): string {
+    const email = process.env.SURFSIGHT_ADMIN_EMAIL?.trim();
+    if (!email) {
+      throw new Error('SURFSIGHT_ADMIN_EMAIL is not set in .env file.');
+    }
+    return email;
+  }
+
+  /**
+   * Get super admin password for Surfsight API authentication
+   * @throws Error if SURFSIGHT_ADMIN_PASSWORD is not set
+   */
+  static getSuperAdminPassword(): string {
+    const password = process.env.SURFSIGHT_ADMIN_PASSWORD?.trim();
+    if (!password) {
+      throw new Error('SURFSIGHT_ADMIN_PASSWORD is not set in .env file.');
+    }
+    return password;
+  }
+
+  /**
    * Validate all required environment variables
    * @throws Error if any required variable is missing
    */
