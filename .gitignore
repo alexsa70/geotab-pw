@@ -47,3 +47,14 @@ yarn-error.log*
 
 # Optional eslint cache
 .eslintcache
+
+#claude
+.claude/
+agents/
+worktrees/
+.cursor/
+
+#allure
+allure-results/
+allure-report/
+allure-serve/

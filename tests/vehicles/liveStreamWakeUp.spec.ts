@@ -15,7 +15,7 @@ test.describe('Live Stream Wake Up', () => {
     vehicle = await vehiclesListPage.findVehicleByName(TEST_DEVICES.DEVICE_11.name);
   });
 
-  test('SOT-XXXX | should wake up standby device and verify live stream @regression', async ({ vehiclesListPage, page }) => {
+  test('SOT-6951 | E2E Live Stream test - should wake up standby device and verify live stream @regression', async ({ vehiclesListPage, page }) => {
     // This test may wait up to 5 minutes for the device to come online
     test.setTimeout(360000);
 

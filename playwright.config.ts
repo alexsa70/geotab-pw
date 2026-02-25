@@ -26,7 +26,8 @@ export default defineConfig({
   reporter: [
     ['html'],
     ['list'],
-    ['json', { outputFile: 'playwright-report/playwright-report.json' }]
+    ['json', { outputFile: 'playwright-report/playwright-report.json' }],
+    ['allure-playwright']
   ],
   /* Maximum time per test */
   timeout: parseInt(process.env.TIMEOUT || '30000', 10),
@@ -114,4 +115,5 @@ export default defineConfig({
   //   url: 'http://localhost:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
+ 
 });
