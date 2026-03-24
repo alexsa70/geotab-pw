@@ -27,22 +27,48 @@ test('SOT-6851 | should verify all buttons in Dashboard menu @regression', async
   
   //SurfSight plugin menu verification
   const menuAddIns = page.getByRole('menuitem', { name: 'Add-Ins' });
-  await menuAddIns.click();
+  const addInsSubMenuProbe = page.getByRole('menuitem', {
+    name: /^(Add-In Subscriptions|Vehicles|Video Events|Recordings|Video Rules)$/
+  });
+
+  const openAddInsSubMenu = async () => {
+    await menuAddIns.click();
+
+    // On some pages Add-Ins needs a second click to show its submenu.
+    if (!(await addInsSubMenuProbe.first().isVisible().catch(() => false))) {
+      await menuAddIns.click();
+    }
+
+    await expect(addInsSubMenuProbe.first()).toBeVisible({ timeout: 10000 });
+  };
+
+  await openAddInsSubMenu();
   
-  const menuAddInManagement = page.getByRole('menuitem', { name: 'Add-In Management' });
-  await menuAddInManagement.click();
-  ;
+  const menuAddInSubscriptions = page.getByRole('menuitem', { name: 'Add-In Subscriptions' });
+  await menuAddInSubscriptions.click();
   
   const menuVehicles =  page.getByRole('menuitem', { name: 'Vehicles' });
   await menuVehicles.click();
-//   await page.getByText('Cameras', { exact: true }).click();
+
+  await openAddInsSubMenu();
+
    const menuVideoEvents = page.getByRole('menuitem', { name: 'Video Events' });
    await menuVideoEvents.click();
-   
-   const menuVideoRecordings = page.getByRole('menuitem', { name: 'Recordings', exact: true });
-   await menuVideoRecordings.click();
-   
-   const menuVideoRules = page.getByRole('menuitem', { name: 'Video Rules' });
+
+   await openAddInsSubMenu();
+
+   const menuRecordings = page.getByRole('menuitem', { name: 'Recordings', exact: true });
+   const menuVideoRecordingsHeader = page.getByRole('menuitem', { name: 'Video Recordings', exact: true });
+   if (await menuRecordings.isVisible().catch(() => false)) {
+    await menuRecordings.click();
+   } else {
+    await menuVideoRecordingsHeader.click();
+   }
+
+   await openAddInsSubMenu();
+
+   const menuVideoRules = page.getByRole('menuitem', { name: /^(Video Rules|Geotab Video Rules)$/ });
+   await expect(menuVideoRules).toBeVisible({ timeout: 10000 });
    await menuVideoRules.click();
    
    const menuVideoRulesText = page.getByText('Geotab Video Rules');

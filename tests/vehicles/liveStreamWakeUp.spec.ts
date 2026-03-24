@@ -16,7 +16,7 @@ test.describe('Live Stream Wake Up', () => {
   });
 
   test('SOT-6951 | E2E Live Stream test - should wake up standby device and verify live stream @regression', async ({ vehiclesListPage, page }) => {
-    // This test may wait up to 5 minutes for the device to come online
+    // This test may wait up to 6 minutes for the device to come online
     test.setTimeout(360000);
 
     // ── Step 1: Open Vehicles page and find the target device ──────────────
